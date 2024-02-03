@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main id="root"></main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const root = document.getElementById("root");
+      let params = new URLSearchParams(location.search);
+      let id = params.get("id");
+
+      async function getData() {
+        try {
+          const response = await axios.get(
+            `https://fakestoreapi.com/products/${id}`
+          );
+          root.innerHTML = `
+          <div class="card-detail"> 
+            <img src=${response.data.image} alt=${response.data.title} />
+            <h1>${response.data.title}</h1>
+          </div>`;
+        } catch (error) {
+          root.innerHTML = `<h1> ${error.message}</h1>`;
+        }
+      }
+
+      axios.get(`https://fakestoreapi.com/products/${id}`);
+
+      getData();
+
+      root.innerHTML = `<h1> Loading ${id}  </h1>`;
+    </script>
+  </body>
+</html>
